@@ -40,7 +40,7 @@ const handleErrors = (err) => {
 };
 
 //creating token
-const maxAge = 3 * 60 * 60;
+const maxAge = 1 * 60 * 60;
 const createToken = (id) => {
   console.log("We made you a webtoken");
   return jwt.sign({ id }, "net ninja secret", {
@@ -72,12 +72,12 @@ module.exports.signup_post = async (req, res) => {
     const token = await createToken(user._id);
     console.log(token);
     console.log(user._id);
-    res.cookie("###", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     console.log("we made you a webtoken");
-    res.status(201).json({ user: user._id });
+    res.status(201).json({ status: true, data: user });
   } catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(400).json({ status: false, error: err });
   }
 };
 
@@ -88,17 +88,16 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(email, password);
     console.log(password);
     const token = await createToken(user._id);
-    res.cookie("###", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user._id, mssg: "you're logged in" });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(200).json({ status: true, data: user,});
   } catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(400).json({ status: false, error: errors });
   }
 };
 
 module.exports.log_out = (req, res) => {
-  res.cookie("###", "", { maxAge: 1 });
-  res.send("You have logged out succesfully");
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.status(200).json({Response: "You have signed out succesfully"});
 };
 
-module.exports.logout_get = async (req, res) => {};

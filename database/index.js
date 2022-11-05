@@ -7,7 +7,7 @@ const connect = () => {
   mongoose
     .connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-      console.log("Database is cennected and ready to go!");
+      console.log("Database is connected and ready to go!");
     })
     .catch((error) => {
       console.log("Opps an error occured", error);
