@@ -21,15 +21,9 @@ app.get("*", checkUser);
 app.get("/", (req, res) => {
   res.json({ mssg: "welcome to my home page" });
 });
-app.get("/blogospot", requireAuth, (req, res) => {
-  res.json({
-    mssg: "Hey there, welcome to the best blogging plateform about the tech industry you'll find everywhere",
-  });
-});
-
 // Settting up the routes
-app.use(authRoutes); //User routes
-app.use(blogRoutes); //Blog routes
+app.use("/blogospot", authRoutes); //User routes
+app.use("/blogospot",blogRoutes); //Blog routes
 
 //setting a 404 page
 app.get("*", function (req, res) {
