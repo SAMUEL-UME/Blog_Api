@@ -1,9 +1,9 @@
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
+const { SECRET } = require("../config/config");
 
 // handle errors
 const handleErrors = (err) => {
-  console.log(err.message, err.code);
   let errors = {
     first_name: "",
     last_name: "",
@@ -30,7 +30,7 @@ const handleErrors = (err) => {
     }
   }
   // validation errors
-  if (err.message.includes("user validation failed")) {
+  if (err.message.includes("User validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
@@ -43,7 +43,7 @@ const handleErrors = (err) => {
 const maxAge = 1 * 60 * 60;
 const createToken = (id) => {
   console.log("We made you a webtoken");
-  return jwt.sign({ id }, "net ninja secret", {
+  return jwt.sign({ id }, SECRET, {
     expiresIn: maxAge,
   });
 };
@@ -59,7 +59,6 @@ module.exports.login_get = (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
   const { first_name, last_name, username, email, password } = req.body;
-  console.log("hello u 2 got here");
 
   try {
     const user = await User.create({
@@ -77,7 +76,7 @@ module.exports.signup_post = async (req, res) => {
     res.status(201).json({ status: true, data: user });
   } catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ status: false, error: err });
+    res.status(400).json({ status: false, error: errors });
   }
 };
 
@@ -89,7 +88,7 @@ module.exports.login_post = async (req, res) => {
     console.log(password);
     const token = await createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ status: true, data: user,});
+    res.status(200).json({ status: true, data: user });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ status: false, error: errors });
@@ -98,6 +97,5 @@ module.exports.login_post = async (req, res) => {
 
 module.exports.log_out = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
-  res.status(200).json({Response: "You have signed out succesfully"});
+  res.status(200).json({ Response: "You have signed out succesfully" });
 };
-

@@ -4,11 +4,15 @@ const { requireAuth } = require("../middleware/authMiddleware");
 
 const router = Router();
 
+//Users blog
+router.get("/user/blogs", requireAuth, blogController.userBlogs);
+
 //create blog
 router.post("/newblog", requireAuth, blogController.createBlog);
 
 // not logged in and logged in user
 // get single blog by id
+router.get("/blogs", blogController.getAllPublishedBlog);
 
 //Get a published blog
 router.get("/:id", requireAuth, blogController.getOnePublishedBlog);

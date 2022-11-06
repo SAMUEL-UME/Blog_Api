@@ -1,17 +1,16 @@
 const mongoose = require("mongoose");
 
-
 const Schema = mongoose.Schema;
 const articleSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Please enter a title"],
       unique: true,
     },
     description: {
       type: String,
-      required: true,
+      required: [true, "Please enter a description"],
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -20,7 +19,7 @@ const articleSchema = new Schema(
     },
     state: {
       type: String,
-      default: "published",
+      default: "draft",
       enum: ["draft", "published"],
     },
     reading_time: Number,
@@ -29,7 +28,10 @@ const articleSchema = new Schema(
       default: 0,
     },
     tags: [String],
-    body: String,
+    body: {
+      type: String,
+      required: [true, "Blog body cannot be empty"],
+    },
   },
   { timestamps: true }
 );

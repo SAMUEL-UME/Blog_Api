@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
+const {MONGO_URL} = require("../config/config")
 
-const mongoURL = process.env.MONGO_URL;
+// const mongoURL = process.env.MONGO_URL;
 
 const connect = () => {
   mongoose
-    .connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log("Database is connected and ready to go!");
     })
