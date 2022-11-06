@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   });
 });
 // Settting up the routes
-app.use("/blogospot", authRoutes); //User routes
+app.use("/blogospot/user", authRoutes); //User routes
 app.use("/blogospot", blogRoutes); //Blog routes
 
 //setting a 404 page
