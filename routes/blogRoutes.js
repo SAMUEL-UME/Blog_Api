@@ -25,6 +25,5 @@ router.patch("/update/:id", requireAuth, blogController.updatePost);
 //delete a blog by user
 router.delete("/delete/:id", requireAuth, blogController.deletePost);
 
-// get all blog -user
 
 module.exports = router;

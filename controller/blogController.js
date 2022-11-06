@@ -89,8 +89,15 @@ module.exports.getAllPublishedBlog = async (req, res) => {
     const user = await User.find({ username: auth });
 
     if (user) {
-      author = user[0]._id;
-      console.log(author);
+      console.log(user);
+      try {
+        author = user[0]._id;
+      } catch (err) {
+        res.status(400).json({
+          status: "flase",
+          error: "User name does not exist in database",
+        });
+      }
     }
   }
   const page = p || 0;
