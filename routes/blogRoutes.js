@@ -10,12 +10,15 @@ router.get("/user/blogs", requireAuth, blogController.userBlogs);
 //create blog
 router.post("/newblog", requireAuth, blogController.createBlog);
 
+// get single blog by id
+router.get("/:id",  blogController.getOnePublishedBlog);
 // not logged in and logged in user
+
+
+
 //Get a published blog
 router.get("/blogs", blogController.getAllPublishedBlog);
 
-// get single blog by id
-router.get("/:id", requireAuth, blogController.getOnePublishedBlog);
 
 //Get all published blogs by all user -paginated 20 - searchable by author ,title and tags  oderable read_count read_time timestamp
 
