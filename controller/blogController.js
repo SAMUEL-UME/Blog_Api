@@ -104,13 +104,10 @@ module.exports.getAllPublishedBlog = async (req, res) => {
 
   const blogPerPage = 20;
 
-  if (title) {
-    findQuery.title = title;
-  }
-
+  
   const findQuery = { state: "published" };
   const setQuery = { updatedAt: -1, createdAt: 1 };
-
+  
   // if author exist
   if (author) {
     findQuery.author = author;
@@ -119,7 +116,10 @@ module.exports.getAllPublishedBlog = async (req, res) => {
   if (tags) {
     findQuery.tags = tags;
   }
-
+  
+  if (title) {
+    findQuery.title = title;
+  }
   if (read_count) {
     setQuery.read_count = 1;
   }
