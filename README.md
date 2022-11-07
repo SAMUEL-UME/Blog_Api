@@ -98,7 +98,7 @@ Come up with any algorithm for calculating the reading_time of the blog.
 
 ### Creating a user
 
-- Route: /blogospot/user/signup
+- Route: /blogospot/signup
 - Method: POST
 
 :point_down: Body
@@ -132,7 +132,7 @@ Come up with any algorithm for calculating the reading_time of the blog.
 
 ### Login User
 
-- Route: /blogospot/user/login
+- Route: /blogospot/login
 - Method: POST
 - Body:
 

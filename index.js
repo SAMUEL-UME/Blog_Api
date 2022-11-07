@@ -23,21 +23,21 @@ app.get("/", (req, res) => {
   });
 });
 // Settting up the routes
-app.use("/blogospot/user", authRoutes); //User routes
+app.use("/blogospot", authRoutes); //User routes
 app.use("/blogospot", blogRoutes); //Blog routes
 
 //setting a 404 page
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+
+//Catch error
 app.get("*", function (req, res) {
   res
     .status(404)
     .send("Oops! You are lost.\nWe can not find the page you are looking for.");
-});
-
-//Catch error
-app.use((err, req, res, next) => {
-  const { statusCode = 500 } = err;
-  if (!err.message) err.message = "Ohh no something went wrong!";
-  res.status(statusCode).json({ error: "Something went wrong", err });
 });
 
 app.listen(PORT, () => {

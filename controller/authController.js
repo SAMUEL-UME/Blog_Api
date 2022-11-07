@@ -54,7 +54,7 @@ module.exports.signup_get = (req, res) => {
 };
 
 module.exports.login_get = (req, res) => {
-  res.send("login");
+  res.send("Heyy there, Login in to your account");
 };
 
 module.exports.signup_post = async (req, res) => {
@@ -97,5 +97,8 @@ module.exports.login_post = async (req, res) => {
 
 module.exports.log_out = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
-  res.status(200).json({ Response: "You have signed out succesfully" }).redirect("/");
+  res
+    .status(200)
+    .json({ Response: "You have signed out succesfully" })
+    .redirect("/");
 };

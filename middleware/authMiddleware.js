@@ -4,13 +4,10 @@ const { SECRET } = require("../config/config");
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
-
-  //check jason web token exist & verified
   if (token) {
     jwt.verify(token, SECRET, async (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
-        res.redirect("/login");
+        res.json({ ERROR: err });
       } else {
         const user = await User.findById(decodedToken.id);
         req.user = user;
@@ -18,7 +15,7 @@ const requireAuth = (req, res, next) => {
       }
     });
   } else {
-    res.redirect("/login");
+    res.status(302).redirect("/blogospot/login");
   }
 };
 
