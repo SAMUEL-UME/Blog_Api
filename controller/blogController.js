@@ -4,8 +4,6 @@ const { readTime } = require("../utils/utils");
 
 // handle errors
 const handleErrors = (err) => {
-  console.log(err.message, err.code);
-
   let errors = {
     title: "",
     body: "",
@@ -18,7 +16,6 @@ const handleErrors = (err) => {
     }
   }
   if (err.message.includes("Article validation failed")) {
-    console.log(Object.values(err.errors));
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
@@ -52,8 +49,6 @@ module.exports.getOnePublishedBlog = async (req, res) => {
     const { id } = req.params;
     const blog = await Article.findById(id).populate("author", { username: 1 });
 
-    console.log(blog.author.username);
-
     if (blog.state !== "published") {
       return res.status(403).json({
         status: false,
@@ -76,20 +71,16 @@ module.exports.getOnePublishedBlog = async (req, res) => {
 
 //Get all published blog
 module.exports.getAllPublishedBlog = async (req, res) => {
-  console.log("------you made it");
   const { query } = req;
 
   const { auth, title, tags, read_count, reading_time, p } = query;
 
-  console.log(query);
-  console.log(auth);
   let author;
 
   if (auth) {
     const user = await User.find({ username: auth });
 
     if (user) {
-      console.log(user);
       try {
         author = user[0]._id;
       } catch (err) {
@@ -104,10 +95,9 @@ module.exports.getAllPublishedBlog = async (req, res) => {
 
   const blogPerPage = 20;
 
-  
   const findQuery = { state: "published" };
-  const setQuery = { updatedAt: -1, createdAt: 1 };
-  
+  const setQuery = { createdAt: -1 };
+
   // if author exist
   if (author) {
     findQuery.author = author;
@@ -116,7 +106,7 @@ module.exports.getAllPublishedBlog = async (req, res) => {
   if (tags) {
     findQuery.tags = tags;
   }
-  
+
   if (title) {
     findQuery.title = title;
   }
@@ -137,15 +127,17 @@ module.exports.getAllPublishedBlog = async (req, res) => {
       .skip(page * blogPerPage)
       .limit(blogPerPage);
 
-    if (blogs) {
-      console.log(blogs);
-      console.log("This wass successful");
+    if (blogs.length >= 1) {
       res.status(200).json({ state: true, data: blogs });
-    } else {
-      throw new Error("No matches was found");
+    } else if (blogs.length <= 0) {
+      res
+        .status(404)
+        .json({ state: true, data: "No blog matches your search" });
     }
   } catch (err) {
-    res.status(400).json({ error: "An error occured please try again" });
+    res
+      .status(400)
+      .json({ state: true, error: "An error occured please try again" });
   }
 };
 
@@ -157,7 +149,6 @@ module.exports.updatePost = async (req, res) => {
     const blog = await Article.findById(id).populate("author", { username: 1 });
     const blogAuthor = blog.author.username;
     const blogId = blog.id;
-    console.log(blogId);
 
     if (user === blogAuthor) {
       const updatedBlog = await Article.findByIdAndUpdate(id, {
@@ -184,11 +175,9 @@ module.exports.deletePost = async (req, res) => {
     const blog = await Article.findById(id).populate("author", { username: 1 });
     const blogAuthor = blog.author.username;
     const blogId = blog.id;
-    console.log(blogId);
 
     if (user === blogAuthor) {
       const deletedBlog = await Article.findByIdAndDelete(id);
-      console.log(deletedBlog);
       res.status(200).json({
         status: true,
         message: "This blog was deleted",
@@ -203,8 +192,6 @@ module.exports.deletePost = async (req, res) => {
 };
 
 module.exports.userBlogs = async (req, res) => {
-  console.log(req.user._id.toString());
-
   const userId = req.user._id.toString();
 
   try {
@@ -227,17 +214,17 @@ module.exports.userBlogs = async (req, res) => {
       .skip(page * blogPerPage)
       .limit(blogPerPage);
 
-    if (blogs) {
+    if (blogs.length >= 1) {
       res.status(200).json({ status: true, data: blogs });
     } else {
       res
         .status(200)
-        .json({ status: true, data: "You have no published blog yet" });
+        .json({ status: true, data: "You have no blog yet blog yet" });
     }
   } catch (err) {
     res.status(401).json({
       status: false,
-      err: err,
+      err: "Opps, Something went wrong",
     });
   }
 };

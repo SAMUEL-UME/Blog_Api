@@ -157,7 +157,7 @@ Success
 
 ### Create Blog
 
-- Route: /blogospot/newblog
+- Route: /blogospot/blog
 - Method: POST
 - Header
   - Authorization: cookie {token}
@@ -196,12 +196,23 @@ Success
 }
 ```
 
+## Getting post all blogs by a logged in user
+
+- Route: /blogs/user
+- Method: get
+
+-- This method automatically get the id by a logged in user an get all post by the specific user (draft and public)
+
+```
+````
+
 ### Update the contents of a Blog
 
-- Route: /blogospot/update/:id
+- Route: /blogospot/blog/:id
 - Method: PATCH
 - Header
-  - Authorization: Bearer {token}
+- Authorization: cookie{token}
+- Requirement: User must be logged
 
 :point_down: Body
 
@@ -268,12 +279,13 @@ Success
 
 ## Delete Blog
 
-- Route: blogospot/delete/:id
+- Route: blogospot/blog/:id
 - Method: DELEtE
-
+- Requirement: User must be llogged in
 
 - Delete the blog with the specified id, and returns the deleted blog
---- 
+
+---
 
 ## Contributor
 

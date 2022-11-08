@@ -3,7 +3,7 @@ const Database = require("./database/index");
 const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const cookieParser = require("cookie-parser");
-const { requireAuth, checkUser } = require("./middleware/authMiddleware");
+const {  checkUser } = require("./middleware/authMiddleware");
 
 const { PORT } = require("./config/config");
 
@@ -28,7 +28,6 @@ app.use("/blogospot", blogRoutes); //Blog routes
 
 //setting a 404 page
 app.use((err, req, res, next) => {
-  console.error(err.stack);
   res.status(500).send("Something broke!");
 });
 

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-const {MONGO_URL} = require("../config/config")
+const { MONGO_URL } = require("../config/config");
 
 // const mongoURL = process.env.MONGO_URL;
 

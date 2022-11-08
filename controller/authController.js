@@ -42,7 +42,6 @@ const handleErrors = (err) => {
 //creating token
 const maxAge = 1 * 60 * 60;
 const createToken = (id) => {
-  console.log("We made you a webtoken");
   return jwt.sign({ id }, SECRET, {
     expiresIn: maxAge,
   });
@@ -69,10 +68,7 @@ module.exports.signup_post = async (req, res) => {
       password,
     });
     const token = await createToken(user._id);
-    console.log(token);
-    console.log(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    console.log("we made you a webtoken");
     res.status(201).json({ status: true, data: user });
   } catch (err) {
     const errors = handleErrors(err);
@@ -85,7 +81,7 @@ module.exports.login_post = async (req, res) => {
 
   try {
     const user = await User.login(email, password);
-    console.log(password);
+  
     const token = await createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ status: true, data: user });

@@ -5,28 +5,22 @@ const { requireAuth } = require("../middleware/authMiddleware");
 const router = Router();
 
 //Users blog
-router.get("/user/blogs", requireAuth, blogController.userBlogs);
+router.get("/blogs/user", requireAuth, blogController.userBlogs);
 
 //create blog
-router.post("/newblog", requireAuth, blogController.createBlog);
-
-// get single blog by id
-router.get("/:id",  blogController.getOnePublishedBlog);
-// not logged in and logged in user
-
-
+router.post("/blog", requireAuth, blogController.createBlog);
 
 //Get a published blog
 router.get("/blogs", blogController.getAllPublishedBlog);
 
+// get single blog by id
+router.get("/blog/:id", blogController.getOnePublishedBlog);
 
-//Get all published blogs by all user -paginated 20 - searchable by author ,title and tags  oderable read_count read_time timestamp
 
 //Update ablog by user
-router.patch("/update/:id", requireAuth, blogController.updatePost);
+router.patch("/blog/:id", requireAuth, blogController.updatePost);
 
 //delete a blog by user
-router.delete("/delete/:id", requireAuth, blogController.deletePost);
-
+router.delete("/blog/:id", requireAuth, blogController.deletePost);
 
 module.exports = router;
