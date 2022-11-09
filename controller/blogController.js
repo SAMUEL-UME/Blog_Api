@@ -79,12 +79,17 @@ module.exports.getAllPublishedBlog = async (req, res) => {
 
   if (auth) {
     const user = await User.find({ username: auth });
+    // if (user) {
+    //   author = user[0]._id;
+    // } else {
+    //   throw new Error("Auhtor name doesn't exist")
+    // }
 
     if (user) {
       try {
         author = user[0]._id;
       } catch (err) {
-        res.status(400).json({
+        return res.status(400).json({
           status: "flase",
           error: "User name does not exist in database",
         });
@@ -130,14 +135,14 @@ module.exports.getAllPublishedBlog = async (req, res) => {
     if (blogs.length >= 1) {
       res.status(200).json({ state: true, data: blogs });
     } else if (blogs.length <= 0) {
-      res
+     return res
         .status(404)
         .json({ state: true, data: "No blog matches your search" });
     }
   } catch (err) {
     res
       .status(400)
-      .json({ state: true, error: "An error occured please try again" });
+      .json({ state: true, error: "An error occured please try again", err });
   }
 };
 

@@ -206,7 +206,7 @@ Success
 ```
 ````
 
-### Update the contents of a Blog
+## Update the contents of a Blog
 
 - Route: /blogospot/blog/:id
 - Method: PATCH
