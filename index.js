@@ -26,17 +26,17 @@ app.get("/", (req, res) => {
 app.use("/blogospot", authRoutes); //User routes
 app.use("/blogospot", blogRoutes); //Blog routes
 
+
 //setting a 404 page
-app.use((err, req, res, next) => {
-  res.status(500).send("Something broke!");
-});
-
-
-//Catch error
 app.get("*", function (req, res) {
   res
-    .status(404)
-    .send("Oops! You are lost.\nWe can not find the page you are looking for.");
+  .status(404)
+  .send("Oops! You are lost.\nWe can not find the page you are looking for.");
+});
+
+//Catch error
+app.use((err, req, res, next) => {
+  res.status(500).send("Something broke!");
 });
 
 app.listen(PORT, () => {

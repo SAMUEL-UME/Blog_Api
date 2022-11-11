@@ -158,6 +158,9 @@ module.exports.updatePost = async (req, res) => {
     if (user === blogAuthor) {
       const updatedBlog = await Article.findByIdAndUpdate(id, {
         ...req.body,
+      }, {
+        new: true,
+        runValidators: true
       });
       res
         .status(200)
