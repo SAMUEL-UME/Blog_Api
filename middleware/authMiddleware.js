@@ -7,7 +7,8 @@ const requireAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, SECRET, async (err, decodedToken) => {
       if (err) {
-        res.json({ ERROR: err });
+       next(err.message)
+        console.log(err.message);
       } else {
         const user = await User.findById(decodedToken.id);
         req.user = user;
@@ -15,7 +16,7 @@ const requireAuth = (req, res, next) => {
       }
     });
   } else {
-    res.status(302).redirect("/blogospot/login");
+    res.status(401).json({ status: false, data: "Not authorized" });
   }
 };
 

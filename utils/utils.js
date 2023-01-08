@@ -4,8 +4,11 @@ module.exports.readTime = (post) => {
   //setting read_time that an average user takes a minutes to read of 200
   let wordsAMinute = totalWords / 200;
   if (Math.round(wordsAMinute) === 0) {
-    return wordsAMinute = +1;
+    return (wordsAMinute = +1);
   } else {
     Math.round(wordsAMinute);
   }
 };
+
+module.exports.maxAge = 1 * 60 * 60;
+

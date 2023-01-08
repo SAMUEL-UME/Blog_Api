@@ -40,15 +40,15 @@ userSchema.pre("save", async function (next) {
 //static method to log in users
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
-
+  console.log(user);
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
       return user;
     }
-    throw Error("Incorrect password");
+    throw Error("Incorrect credentials");
   }
-  throw Error("incorrect email");
+  throw  Error("Email not registered");
 };
 
 const User = mongoose.model("User", userSchema);
