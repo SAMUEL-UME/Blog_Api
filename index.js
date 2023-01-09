@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.get("*", checkUser);
 app.get("/", (req, res) => {
   res.json({
-    mssg: "Hey there, welcome to the best blogging plateform about the tech industry you'll find everywher",
+    mssg: "Hey there, welcome to blogospot.",
   });
 });
 // Settting up the routes
