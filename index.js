@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("*", checkUser);
-app.get("/api/v1/blogospot/", (req, res) => {
+app.get("/", (req, res) => {
   res.json({
     mssg: "Hey there, welcome to the best blogging plateform about the tech industry you'll find everywher",
   });
