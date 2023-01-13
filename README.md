@@ -1,6 +1,6 @@
 # Blogospot
 
-This is an api for a blog app
+Blog api
 
 ---
 
