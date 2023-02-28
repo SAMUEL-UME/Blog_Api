@@ -3,6 +3,7 @@ const Database = require("./database/index");
 const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const cookieParser = require("cookie-parser");
+const cors = require("cors")
 const { checkUser } = require("./middleware/authMiddleware");
 
 const { PORT } = require("./config/config");
@@ -13,6 +14,7 @@ Database.connect();
 const app = express();
 
 //midlleware
+app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
 
