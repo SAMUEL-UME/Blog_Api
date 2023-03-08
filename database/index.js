@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const { MONGO_URL } = require("../config/config");
 
-
 const { PORT } = require("../config/config");
+const port = PORT || 3000;
 
 // const mongoURL = process.env.MONGO_URL;
 
