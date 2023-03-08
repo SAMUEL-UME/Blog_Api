@@ -26,7 +26,7 @@ module.exports.signup_post = async (req, res) => {
     res.status(201).json({ status: true, user, token });
   } catch (error) {
     const errors = handleErrors(error);
-    res.status(400).json({ status: false, errors });
+    res.status(400).json({ status: false, error });
   }
 };
 
