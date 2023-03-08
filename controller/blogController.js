@@ -3,7 +3,6 @@ const User = require("../model/user");
 const { readTime } = require("../utils/utils");
 const { handleBlogErrors } = require("../validation/customErrorHandler");
 
-
 // handle errors
 
 module.exports.createBlog = async (req, res) => {
@@ -74,7 +73,7 @@ module.exports.getAllPublishedBlog = async (req, res) => {
     }
   }
   const page = Number(p) || 0;
-  console.log(p);
+  // console.log(p);
 
   const blogPerPage = 20;
 
@@ -135,7 +134,10 @@ module.exports.updatePost = async (req, res) => {
     const blogId = blog.id;
 
     if (user === blogAuthor) {
-      const updatedBlog = await Article.findByIdAndUpdate(id, {...req.body},{new: true, runValidators: true}
+      const updatedBlog = await Article.findByIdAndUpdate(
+        id,
+        { ...req.body },
+        { new: true, runValidators: true }
       );
       res
         .status(200)
@@ -189,6 +191,8 @@ module.exports.userBlogs = async (req, res) => {
     if (state) {
       findQuery.state = state;
     }
+    // const { authorization } = req.headers;
+    // console.log(req.headers);
 
     const blogs = await Article.find(findQuery)
       .populate("author", { username: 1 })
