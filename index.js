@@ -1,23 +1,18 @@
 const express = require("express");
-const Database = require("./database/index");
+const Database = require("./database");
 const authRoutes = require("./routes/authRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const cookieParser = require("cookie-parser");
-const cors = require("cors")
+const cors = require("cors");
 const { checkUser } = require("./middleware/authMiddleware");
-
-const { PORT } = require("./config/config");
-
-// Database connection
-Database.connect();
 
 const app = express();
 
 //midlleware
-app.use(cors())
+// app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-
 app.get("*", checkUser);
 app.get("/", (req, res) => {
   res.json({
@@ -25,7 +20,7 @@ app.get("/", (req, res) => {
   });
 });
 // Settting up the routes
-app.use("/api/v1/blogospot", authRoutes); //User routes
+app.use("/api/v1/blogospot", authRoutes, cors()); //User routes
 app.use("/api/v1/blogospot", blogRoutes); //Blog routes
 
 //setting a 404 page
@@ -38,10 +33,8 @@ app.get("*", function (req, res) {
 //Catch error
 app.use((err, req, res, next) => {
   console.log(err);
-  res.status(500).json({ status: false, error: err});
+  res.status(500).json({ status: false, error: err });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`);
-});
-
+// Database connection
+Database.connect(app);
