@@ -24,15 +24,15 @@ module.exports.signup_post = async (req, res) => {
 };
 
 module.exports.login_post = async (req, res) => {
+  console.log(req.body);
   try {
     const data = await User.login(req.body);
-    const token =createToken(data._id);
+    console.log(data);
+    const token = createToken(data._id);
     const { password, ...user } = data._doc;
-    delete user.password;
-    delete user.password;
     res.status(200).json({ status: true, user, token });
   } catch (error) {
-    res.status(400).json({ status: false, error: "Incorrect credentials" });
+    res.status(400).json({ status: false, error: error.message });
   }
 };
 

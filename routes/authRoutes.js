@@ -4,7 +4,7 @@ const {validateSignup,validateLogin} = require("../validation/authValidation");
 
 const router = Router();
 
-router.get("/logout", authController.log_out);
+
 
 router
   .route("/signup")
