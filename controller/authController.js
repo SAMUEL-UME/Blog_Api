@@ -11,34 +11,27 @@ const createToken = (id) => {
 };
 //controller action
 module.exports.signup_post = async (req, res) => {
-  const { first_name, last_name, username, email, password } = req.body;
   try {
-    const user = await User.create({
-      first_name,
-      last_name,
-      username,
-      email,
-      password,
-    });
-    const token = await createToken(user._id);
-    console.log("i got here");
+    const data = await User.create(req.body);
+    const token = createToken(data._id);
+    const { password, ...user } = data._doc;
     delete user.password;
     res.status(201).json({ status: true, user, token });
-  } catch (error) {
-    const errors = handleErrors(error);
+  } catch (err) {
+    const error = handleErrors(err);
     res.status(400).json({ status: false, error });
   }
 };
 
 module.exports.login_post = async (req, res) => {
-  const { email, password } = req.body;
   try {
-    const user = await User.login(email, password);
-    const token = await createToken(user._id);
+    const data = await User.login(req.body);
+    const token =createToken(data._id);
+    const { password, ...user } = data._doc;
+    delete user.password;
     delete user.password;
     res.status(200).json({ status: true, user, token });
   } catch (error) {
-    console.log(error);
     res.status(400).json({ status: false, error: "Incorrect credentials" });
   }
 };
